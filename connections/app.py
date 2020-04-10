@@ -12,6 +12,7 @@ from connections.views import blueprint
 def create_app(config_object=Config):
     app = Flask(__name__.split('.')[0])
     app.config.from_object(config_object)
+    app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
     register_extensions(app)
     register_blueprints(app)
