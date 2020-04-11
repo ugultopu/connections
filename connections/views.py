@@ -36,3 +36,11 @@ def get_connections():
 def create_connection(connection):
     connection.save()
     return ConnectionSchema().jsonify(connection), HTTPStatus.CREATED
+
+
+@blueprint.route('/connections/<id>', methods=['PATCH'])
+@use_args(ConnectionSchema(), locations=('json',))
+def update_connection_type(dummy_connection, id):
+    connection = Connection.query.get_or_404(id)
+    connection.update(connection_type = dummy_connection.connection_type)
+    return ConnectionSchema().jsonify(connection), HTTPStatus.OK
