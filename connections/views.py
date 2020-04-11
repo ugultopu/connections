@@ -3,8 +3,8 @@ from http import HTTPStatus
 from flask import Blueprint
 from webargs.flaskparser import use_args
 
-from connections.models.person import Person
 from connections.models.connection import Connection
+from connections.models.person import Person
 from connections.schemas import ConnectionSchema, PersonSchema
 
 blueprint = Blueprint('connections', __name__)
@@ -42,5 +42,5 @@ def create_connection(connection):
 @use_args(ConnectionSchema(), locations=('json',))
 def update_connection_type(dummy_connection, id):
     connection = Connection.query.get_or_404(id)
-    connection.update(connection_type = dummy_connection.connection_type)
+    connection.update(connection_type=dummy_connection.connection_type)
     return ConnectionSchema().jsonify(connection), HTTPStatus.OK

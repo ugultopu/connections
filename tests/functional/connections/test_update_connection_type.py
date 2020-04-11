@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from tests.factories import PersonFactory, ConnectionFactory
+from tests.factories import ConnectionFactory, PersonFactory
 
 from connections.models.connection import Connection
 
