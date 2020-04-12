@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from flask import Blueprint
+from webargs import fields
 from webargs.flaskparser import use_args
 
 from connections.models.connection import Connection
@@ -15,6 +16,15 @@ def get_people():
     people_schema = PersonSchema(many=True)
     people = Person.query.all()
     return people_schema.jsonify(people), HTTPStatus.OK
+
+
+@blueprint.route('/people/<int:id>/mutual_friends', methods=['GET'])
+@use_args( {'target_id': fields.Int(required=True, location='query')} )
+def get_mutual_friends(args, id):
+    people_schema = PersonSchema(many=True)
+    person = Person.query.get_or_404(id)
+    target = Person.query.get_or_404(args['target_id'])
+    return people_schema.jsonify(person.mutual_friends(target)), HTTPStatus.OK
 
 
 @blueprint.route('/people', methods=['POST'])
